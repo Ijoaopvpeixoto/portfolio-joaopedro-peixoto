@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>João Pedro Peixoto — Portfólio</title>
+  <meta name="description" content="Portfólio pessoal de João Pedro V. Peixoto, estudante de Sistemas de Informação com foco em redes e cibersegurança.">
+
+  <!-- Fontes: uma monoespaçada (identidade "terminal/rede") e uma sans-serif para leitura -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== CABEÇALHO / MENU FIXO ===================== -->
+  <!-- Menu visível em todas as seções, conforme exigido na atividade -->
+  <header class="site-header" id="topo">
+    <div class="header-inner">
+      <a href="#topo" class="logo" aria-label="Voltar ao topo">
+        <span class="logo-prompt">&gt;_</span> joao<span class="logo-blink">.</span>peixoto
+      </a>
+
+      <!-- Botão hamburguer: aparece apenas em telas pequenas (JS controla abrir/fechar) -->
+      <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-nav">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="menu-nav" class="nav" aria-label="Navegação principal">
+        <a href="#sobre" class="nav-link">Sobre mim</a>
+        <a href="#formacao" class="nav-link">Formação</a>
+        <a href="#portfolio" class="nav-link">Portfólio</a>
+        <a href="#contato" class="nav-link">Contato</a>
+
+        <!-- Botão de alternância de tema claro/escuro (requisito da atividade) -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">whoami --formacao=sistemas-de-informacao</p>
+        <h1>João Pedro V. Peixoto</h1>
+        <p class="hero-subtitle">
+          Estudante de Sistemas de Informação, em construção de base sólida em
+          <strong>redes de computadores</strong>, <strong>cibersegurança</strong> e
+          <strong>desenvolvimento web</strong>.
+        </p>
+        <div class="hero-actions">
+          <a href="#contato" class="btn btn-primary">Entrar em contato</a>
+          <a href="#portfolio" class="btn btn-ghost">Ver portfólio</a>
+        </div>
+        <ul class="hero-meta">
+          <li>📍 Nova Friburgo — RJ</li>
+          <li>✉️ contato.joaopdev@gmail.com</li>
+        </ul>
+      </div>
+
+      <!-- Elemento-assinatura: topologia de rede animada em SVG, representando as áreas de interesse -->
+      <div class="hero-graphic" aria-hidden="true">
+        <svg viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" class="network-svg">
+          <!-- Conexões entre os nós (linhas tracejadas simulam pacotes de dados em movimento) -->
+          <g class="net-edges">
+            <line x1="210" y1="180" x2="80"  y2="70"  class="edge" />
+            <line x1="210" y1="180" x2="340" y2="70"  class="edge" />
+            <line x1="210" y1="180" x2="60"  y2="270" class="edge" />
+            <line x1="210" y1="180" x2="350" y2="280" class="edge" />
+            <line x1="80"  y1="70"  x2="60"  y2="270" class="edge edge-thin" />
+            <line x1="340" y1="70"  x2="350" y2="280" class="edge edge-thin" />
+          </g>
+          <!-- Nós representando as áreas de conhecimento -->
+          <g class="net-nodes">
+            <circle cx="210" cy="180" r="16" class="node node-core" />
+            <circle cx="80"  cy="70"  r="10" class="node" />
+            <circle cx="340" cy="70"  r="10" class="node" />
+            <circle cx="60"  cy="270" r="10" class="node" />
+            <circle cx="350" cy="280" r="10" class="node" />
+          </g>
+          <g class="net-labels">
+            <text x="210" y="205" class="label label-core">SI</text>
+            <text x="80"  y="52"  class="label">Redes</text>
+            <text x="340" y="52"  class="label">Segurança</text>
+            <text x="45"  y="298" class="label">Dev Web</text>
+            <text x="330" y="308" class="label">Sistemas</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ===================== SEÇÃO: SOBRE MIM ===================== -->
+    <section id="sobre" class="section">
+      <p class="eyebrow"># sobre-mim</p>
+      <h2 class="section-title">Sobre mim</h2>
+
+      <div class="about-grid">
+        <p class="about-text">
+          Sou João Pedro, estudante de <strong>Sistemas de Informação na UNINTER</strong>,
+          atualmente com grande interesse em infraestrutura, redes de computadores e
+          cibersegurança. Estou sempre buscando oportunidades para desenvolver experiência
+          prática em segurança de sistemas, redes e proteção de dados — unindo o que
+          aprendo na teoria a projetos e testes de configuração reais.
+        </p>
+
+        <div class="skills-box">
+          <h3>Habilidades técnicas</h3>
+          <ul class="tag-list">
+            <li>HTML, CSS &amp; JavaScript</li>
+            <li>Java, C, Python (básico)</li>
+            <li>Criação de sockets e pequenas aplicações</li>
+            <li>Git &amp; GitHub</li>
+            <li>VS Code</li>
+            <li>Análise e modelagem de sistemas</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SEÇÃO: FORMAÇÃO ===================== -->
+    <section id="formacao" class="section section-alt">
+      <p class="eyebrow"># formacao --cursos --experiencia</p>
+      <h2 class="section-title">Formação</h2>
+
+      <h3 class="subsection-title">Educação</h3>
+      <div class="timeline-item">
+        <div class="timeline-date">01/2024 — Atualmente</div>
+        <div class="timeline-content">
+          <h4>UNINTER</h4>
+          <p>Bacharel em Sistemas de Informação</p>
+        </div>
+      </div>
+
+      <h3 class="subsection-title">Cursos e livros</h3>
+      <ul class="course-list">
+        <li>Redes de Computadores e a Internet — <strong>Kurose &amp; Ross</strong></li>
+        <li>Introdução à Cibersegurança — <strong>CISCO</strong></li>
+        <li>Conceitos Básicos de Redes — <strong>CISCO</strong></li>
+        <li>CS50's Introduction to Computer Science — <strong>Harvard</strong></li>
+        <li>Desenvolvimento Web (HTML5 &amp; CSS3) — Curso em vídeo</li>
+        <li>Git e GitHub – Versionamento de Código — <strong>UNINTER</strong></li>
+        <li>Fundamentos de Sistemas de Informações Gerenciais — <strong>Udemy</strong></li>
+        <li>Pacote Office Essentials — <strong>Udemy</strong></li>
+        <li>Algoritmos e Lógica de Programação — <strong>Udemy</strong></li>
+        <li>Programação em Python (Trilha) — <strong>Fundação Bradesco</strong></li>
+      </ul>
+
+      <h3 class="subsection-title">Experiência profissional</h3>
+
+      <div class="timeline-item">
+        <div class="timeline-date">02/2026 — Atualmente</div>
+        <div class="timeline-content">
+          <h4>WX3 — Ecommerce</h4>
+          <p class="role">Suporte de E-commerce</p>
+          <ul>
+            <li>Atendimento ao cliente</li>
+            <li>Suporte técnico e manutenção da plataforma</li>
+            <li>Treinamentos e criação de manuais</li>
+            <li>Integrações e consultorias</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">06/2024 — 02/2026</div>
+        <div class="timeline-content">
+          <h4>CCN Distribuidora</h4>
+          <p class="role">Assistente de E-commerce (Aprendiz → Estagiário)</p>
+          <ul>
+            <li>Atendimento ao cliente</li>
+            <li>Cadastro de produtos e promoções no site (Vtex)</li>
+            <li>Sistema ERP (análise interna)</li>
+            <li>Cadastro de novos clientes</li>
+            <li>Manutenção e ajustes no site (Vtex) junto com o T.I.</li>
+            <li>Criação de planilhas e relatórios</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">01/2023 — 06/2024</div>
+        <div class="timeline-content">
+          <h4>Farmácia da Praça</h4>
+          <p class="role">Operador de Caixa — Call Center</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SEÇÃO: PORTFÓLIO ===================== -->
+    <section id="portfolio" class="section">
+      <p class="eyebrow"># portfolio --projetos</p>
+      <h2 class="section-title">Portfólio</h2>
+
+      <div class="project-card">
+        <h3>Defesa em Profundidade em Topologias Cisco</h3>
+        <p>
+          Projeto de infraestrutura de rede desenvolvido para uma empresa fictícia com dois
+          setores críticos — <strong>Contabilidade</strong> e <strong>Folha de Pagamento</strong>.
+          O desafio central era garantir que, mesmo compartilhando a mesma infraestrutura
+          física, houvesse <strong>isolamento de dados</strong> e proteção contra acessos não
+          autorizados entre os setores, aplicando o conceito de defesa em profundidade.
+        </p>
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7452088977790222337/"
+           target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-small">
+          Ver publicação no LinkedIn ↗
+        </a>
+      </div>
+
+      <p class="portfolio-note">
+        Mais projetos práticos de redes, segurança e desenvolvimento web serão adicionados
+        aqui conforme forem concluídos. Acompanhe também o meu
+        <a href="https://github.com/Ijoaopvpeixoto" target="_blank" rel="noopener noreferrer">GitHub</a>.
+      </p>
+    </section>
+
+    <!-- ===================== SEÇÃO: CONTATO ===================== -->
+    <section id="contato" class="section section-alt">
+      <p class="eyebrow"># contato --enviar-mensagem</p>
+      <h2 class="section-title">Contato</h2>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Vamos conversar sobre oportunidades, projetos ou trocar uma ideia sobre redes e segurança?</p>
+          <ul class="contact-list">
+            <li>✉️ <a href="mailto:contato.joaopdev@gmail.com">contato.joaopdev@gmail.com</a></li>
+            <li>📞 (22) 99895-0376</li>
+            <li>📍 Nova Friburgo — RJ</li>
+            <li>🔗 <a href="https://www.linkedin.com/in/joão-pedro-peixoto-64a232336" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li>💻 <a href="https://github.com/Ijoaopvpeixoto" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          </ul>
+        </div>
+
+        <!-- Formulário com validação obrigatória em JavaScript (ver script.js) -->
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" placeholder="Seu nome completo">
+            <span class="error-message" id="erro-nome"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" placeholder="usuario@dominio.com">
+            <span class="error-message" id="erro-email"></span>
+          </div>
+
+          <div class="form-field">
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem" rows="5" placeholder="Escreva sua mensagem..."></textarea>
+            <span class="error-message" id="erro-mensagem"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Enviar mensagem</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="ano-atual"></span> João Pedro V. Peixoto — Feito com HTML5, CSS3 e JavaScript puros.</p>
+  </footer>
+
+  <!-- ===================== MODAL DE CONFIRMAÇÃO ===================== -->
+  <!-- Exibida via JS após o envio simulado do formulário -->
+  <div id="modal-overlay" class="modal-overlay" hidden>
+    <div class="modal-box" role="alertdialog" aria-live="assertive" aria-labelledby="modal-title">
+      <p class="modal-icon">✅</p>
+      <h3 id="modal-title">Mensagem enviada com sucesso!</h3>
+      <p>Obrigado pelo contato, João Pedro responderá em breve.</p>
+      <button id="modal-close" class="btn btn-primary btn-small">Fechar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

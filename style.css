@@ -1,0 +1,576 @@
+/* ==========================================================================
+   RESET BÁSICO
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* rolagem suave ao clicar nos links âncora do menu */
+}
+
+/* ==========================================================================
+   TOKENS DE DESIGN (TEMA ESCURO = PADRÃO)
+   Identidade visual: topologia de rede / terminal, ligada à área de
+   redes e cibersegurança do João Pedro.
+   ========================================================================== */
+:root {
+  --bg: #0b1220;
+  --bg-elevated: #111a2c;
+  --bg-card: #131d31;
+  --text: #e6edf3;
+  --text-muted: #93a4bd;
+  --accent: #2fb8ac;
+  --accent-soft: rgba(47, 184, 172, 0.15);
+  --accent-2: #f2a93b;
+  --border: rgba(255, 255, 255, 0.08);
+  --danger: #e5484d;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --radius: 10px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Tema claro: ativado via atributo data-theme="light" no <html>, alternado pelo JS */
+html[data-theme="light"] {
+  --bg: #f4f6f9;
+  --bg-elevated: #ffffff;
+  --bg-card: #ffffff;
+  --text: #101826;
+  --text-muted: #47566b;
+  --accent: #1f8f86;
+  --accent-soft: rgba(31, 143, 134, 0.12);
+  --accent-2: #b96f14;
+  --border: rgba(16, 24, 38, 0.1);
+  --shadow: 0 10px 24px rgba(16, 24, 38, 0.08);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Foco visível para acessibilidade de navegação por teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+ul { list-style: none; }
+
+.section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 96px 24px;
+}
+.section-alt {
+  background-color: var(--bg-elevated);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-bottom: 40px;
+}
+
+.subsection-title {
+  font-size: 1.1rem;
+  color: var(--accent-2);
+  margin: 32px 0 16px;
+}
+
+/* ==========================================================================
+   CABEÇALHO / MENU FIXO
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+.logo:hover { text-decoration: none; }
+.logo-prompt { color: var(--accent); }
+
+/* Cursor piscando ao lado do nome, reforçando a identidade "terminal" */
+.logo-blink {
+  color: var(--accent);
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.nav-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: rotate(20deg);
+}
+
+/* Botão hamburguer - escondido em telas largas, exibido no mobile via media query */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--text);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+/* Quando o menu está aberto (classe adicionada pelo JS), o ícone vira um "X" */
+.menu-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.is-open span:nth-child(2) { opacity: 0; }
+.menu-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 72px 24px 40px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.hero-text h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 8px 0 20px;
+}
+
+.hero-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 46ch;
+  margin-bottom: 28px;
+}
+.hero-subtitle strong { color: var(--text); }
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Gráfico de topologia de rede animado (elemento-assinatura da página) */
+.hero-graphic {
+  display: flex;
+  justify-content: center;
+}
+.network-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+.node {
+  fill: var(--accent);
+  stroke: var(--bg);
+  stroke-width: 3;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.node-core {
+  fill: var(--accent-2);
+  animation-delay: 0s;
+}
+@keyframes pulse {
+  0%, 100% { r: 10; opacity: 1; }
+  50% { r: 12.5; opacity: 0.75; }
+}
+.edge {
+  stroke: var(--accent);
+  stroke-width: 1.6;
+  stroke-dasharray: 6 6;
+  opacity: 0.55;
+  animation: flow 3s linear infinite;
+}
+.edge-thin {
+  stroke: var(--text-muted);
+  opacity: 0.25;
+}
+@keyframes flow {
+  to { stroke-dashoffset: -60; }
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text-muted);
+}
+.label-core {
+  fill: var(--bg);
+  font-weight: 700;
+  font-size: 12px;
+  text-anchor: middle;
+}
+
+/* Respeita usuários que preferem menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .edge, .node, .logo-blink { animation: none; }
+}
+
+/* ==========================================================================
+   BOTÕES
+   ========================================================================== */
+.btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  padding: 12px 22px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover { text-decoration: none; transform: translateY(-2px); }
+
+.btn-primary {
+  background-color: var(--accent);
+  color: #06110f;
+  font-weight: 600;
+}
+.btn-primary:hover { background-color: color-mix(in srgb, var(--accent) 85%, white); }
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn-small {
+  padding: 8px 16px;
+  font-size: 0.82rem;
+}
+
+/* ==========================================================================
+   SEÇÃO SOBRE
+   ========================================================================== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+}
+.about-text { color: var(--text-muted); max-width: 60ch; }
+
+.skills-box {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.skills-box h3 {
+  font-size: 1rem;
+  margin-bottom: 14px;
+  color: var(--accent-2);
+}
+.tag-list li {
+  font-size: 0.9rem;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.tag-list li:last-child { border-bottom: none; }
+
+/* ==========================================================================
+   SEÇÃO FORMAÇÃO (timeline + cursos)
+   ========================================================================== */
+.timeline-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.timeline-item:last-child { border-bottom: none; }
+
+.timeline-date {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+}
+.timeline-content h4 { font-size: 1.05rem; margin-bottom: 4px; }
+.timeline-content .role { color: var(--text-muted); margin-bottom: 10px; font-style: italic; }
+.timeline-content ul li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.timeline-content ul li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.course-list {
+  display: grid;
+  gap: 10px;
+}
+.course-list li {
+  font-size: 0.92rem;
+  padding: 10px 14px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   SEÇÃO PORTFÓLIO
+   ========================================================================== */
+.project-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+}
+.project-card h3 { margin-bottom: 12px; font-size: 1.15rem; }
+.project-card p { color: var(--text-muted); margin-bottom: 18px; max-width: 70ch; }
+
+.portfolio-note {
+  margin-top: 24px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   SEÇÃO CONTATO
+   ========================================================================== */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 48px;
+}
+
+.contact-info p { color: var(--text-muted); margin-bottom: 20px; max-width: 40ch; }
+.contact-list li { margin-bottom: 12px; font-size: 0.95rem; }
+
+.contact-form {
+  display: grid;
+  gap: 18px;
+}
+.form-field { display: grid; gap: 6px; }
+.form-field label {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.form-field input,
+.form-field textarea {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: var(--accent);
+}
+
+/* Estilo aplicado via JS quando um campo falha na validação */
+.form-field input.is-invalid,
+.form-field textarea.is-invalid {
+  border-color: var(--danger);
+}
+.error-message {
+  font-size: 0.8rem;
+  color: var(--danger);
+  min-height: 1em;
+}
+
+/* ==========================================================================
+   MODAL DE CONFIRMAÇÃO
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 10, 20, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+/* IMPORTANTE: sem esta regra, o atributo [hidden] do HTML é sobrescrito pelo
+   "display: flex" acima (uma regra de classe sempre vence uma regra de atributo
+   do navegador), fazendo o modal aparecer sempre e nunca fechar. */
+.modal-overlay[hidden] {
+  display: none;
+}
+.modal-box {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  animation: modal-in 0.2s ease;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-icon { font-size: 2rem; margin-bottom: 8px; }
+.modal-box h3 { margin-bottom: 10px; font-size: 1.05rem; }
+.modal-box p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.92rem; }
+
+/* ==========================================================================
+   RODAPÉ
+   ========================================================================== */
+.site-footer {
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   RESPONSIVO
+   ========================================================================== */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-graphic { order: -1; max-width: 280px; margin: 0 auto; }
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Menu colapsável no mobile: escondido por padrão, exibido pelo JS via .is-open */
+  .menu-toggle { display: flex; }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 24px;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .nav.is-open {
+    max-height: 320px;
+    padding: 16px 24px 24px;
+  }
+  .nav-link {
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .theme-toggle { margin-top: 12px; }
+}
